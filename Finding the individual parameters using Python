@@ -1,0 +1,71 @@
+FINDING EIGEN VECTOR USING PYTHON:
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Generate some sample data
+x = np.linspace(-5, 5, 100)
+y = 2 * x + np.random.normal(0, 1, 100)
+
+# Create a matrix from the data
+A = np.vstack((x, y)).T
+
+# Find the eigenvalues and eigenvectors
+eigenvalues, eigenvectors = np.linalg.eig(np.cov(A.T))
+
+# Print the eigenvalues and eigenvectors
+print('Eigenvalues:', eigenvalues)
+print('Eigenvectors:', eigenvectors)
+
+
+FINDNG EDGE BETWEENNESS:
+
+import pandas as pd
+import networkx as nx
+
+# Read the data from an Excel file
+df = pd.read_excel('pseudo_facebook3.xlsx')
+
+# Create a network graph from the data
+G = nx.from_pandas_edgelist(df, source='A', target='B')
+
+# Calculate the edge betweenness
+edge_betweenness = nx.edge_betweenness_centrality(G)
+
+# Print the edge betweenness
+print(edge_betweenness)
+
+FINDING CLOSENESS:
+
+import pandas as pd
+import networkx as nx
+
+# Read the data from an Excel file
+df = pd.read_excel('pseudo_facebook3.xlsx')
+
+# Create a network graph from the data
+G = nx.from_pandas_edgelist(df, source='A', target='B')
+
+# Calculate the closeness
+closeness = nx.closeness_centrality(G)
+
+# Print the closeness
+print(closeness)
+
+FINDING DEGREE:
+
+import pandas as pd
+import networkx as nx
+
+# Read the data from an Excel file
+df = pd.read_excel('pseudo_facebook3.xlsx')
+
+# Create a network graph from the data
+G = nx.from_pandas_edgelist(df, source='A', target='B')
+
+# Calculate the degree
+degree = dict(G.degree())
+
+# Print the degree
+print(degree)
+
