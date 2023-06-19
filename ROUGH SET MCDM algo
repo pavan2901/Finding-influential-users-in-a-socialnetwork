@@ -1,0 +1,44 @@
+The Rough Set MCDM algorithm provides a systematic and structured approach to handle decision problems with imprecise or uncertain data.
+It combines the power of rough set theory for handling uncertainty and multiple criteria decision making methods for evaluating 
+and ranking alternatives based on multiple criteria. By integrating these two approaches, the algorithm helps in improving decision quality 
+and supporting informed decision-making processes.
+
+
+import pandas as pd
+import networkx as nx
+import numpy as np
+from sklearn.preprocessing import MinMaxScaler
+import time
+
+# Read the data from an Excel file
+start_time = time.time()
+df = pd.read_excel('pseudo_facebook3.xlsx')
+
+# Create a network graph from the data
+G = nx.from_pandas_edgelist(df, source='A', target='B')
+
+# Calculate the centrality measures
+closeness = nx.closeness_centrality(G)
+degree = dict(G.degree())
+eigenvector = nx.eigenvector_centrality(G)
+betweenness = nx.betweenness_centrality(G)
+
+# Combine the centrality measures using a weighted sum
+weights = [0.2, 0.2, 0.3, 0.3]
+centrality = np.array([list(closeness.values()), list(degree.values()), list(eigenvector.values()), list(betweenness.values())])
+centrality = MinMaxScaler().fit_transform(centrality.T)
+scores = np.dot(centrality, weights)
+
+# Rank the users based on their scores
+ranks = np.argsort(scores)[::-1]
+
+# Use the Rough Set MCDM algorithm to select the most influential users
+influential_users = ranks[:10]
+
+# Print the top 10 influential users
+print(influential_users)
+
+end_time = time.time()
+run_time = end_time - start_time
+print("The run time is: ", run_time, " seconds.")
+
